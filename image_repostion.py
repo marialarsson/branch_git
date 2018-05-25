@@ -1,6 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.image as mpimg
 import cv2
 
 def get_branch_center_point(img):
