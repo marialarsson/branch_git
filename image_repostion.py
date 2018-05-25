@@ -3,8 +3,6 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import cv2
 
-name_number = '0001'
-
 def get_branch_center_point(img):
     x = 0
     y = 0
@@ -122,33 +120,33 @@ def rotate_image(img, ang):
   result = cv2.warpAffine(img, rot_mat, img.shape[1::-1], flags=cv2.INTER_LINEAR)
   return result
 
-# import images
-img1 = cv2.imread(name_number+'_depth_1.jpg',0)
-img2 = cv2.imread(name_number+'_depth_2.jpg',0)
 
-print name_number+'_depth_1.jpg'
+# Set name_number to identify which item in the dataset that you are working on
+name_number = '0001'
 
-img1[img1<10]=-1
-img2[img2<10]=-1
-#minimum = np.min(img1)
-img1[img1==255]=0
-img2[img2==255]=0
-#maximum = np.max(img1)
-#print 'min',minimum,'max',maximum #49,96
+# Import Images
+path = os.path.join(os.path.expanduser('~'), 'Git', 'branch_git', 'Dataset', '0_Raw')
+filename1 = name_number+"_depth_1.jpg
+filename2 = name_number+"_depth_2.jpg
+img1 = cv2.imread(path+'/'+filename1,0)
+img2 = cv2.imread(path+'/'+filename2,0)
+
+# Overwrite low values (almost black) with 0 (black)
+img1[img1<10]=0
+img2[img2<10]=0
+
+#Get center points of branches
 (ctr1_i,ctr1_j) = get_branch_center_point(img1)
 (ctr2_i,ctr2_j) = get_branch_center_point(img2)
 #img1 = display_point(img1,ctr1_i,ctr1_j)
 #img2 = display_point(img2,ctr2_i,ctr2_j)
-#print 'Center 1:',ctr1_i,ctr1_j
-#print 'Center 2:',ctr2_i,ctr2_j
-#scale = 255/(maximum-minimum)
-#img1 = (img1-minimum)*scale
 
-# Move branch in img2 to align center points
+# Move branch in img2 to align its center point with img1
 ctr_diff_i = ctr2_i-ctr1_i
 ctr_diff_j = ctr2_j-ctr1_j
-#print 'i:',ctr_diff_i,'j:',ctr_diff_j
 img2 = move_branch(img2,ctr_diff_i,ctr_diff_j)
+
+# Iterate moving and rotating branch in img2, evaluate the overlap, and pick the best one (the one with the highest overlap)
 img2 = optimize_position(img2,img1,15)
 img2 = optimize_rotation(img2,img1,5)
 img2 = optimize_position(img2,img1,10)
@@ -157,14 +155,16 @@ img2 = optimize_position(img2,img1,5)
 #ol = get_overlap(img2,img1)
 #print 'Overlap',ol
 
-# Overlap Images
+# Overlay Images and display to display how well the branch in img1 and img2 are overlapping
 img_overlayed = overlay_images(img1,img2)
-
-# Show Images
 cv2.imshow('image',img_overlayed)
-path = '~/Documents/BranchConnect_Data'
-#cv2.imwrite(path'/'+name_number+"_depth_1.jpg",img1)
-cv2.imwrite("~/Documents/BranchConnect_Data/"+name_number+"_depth_2.jpg",img2)
-print 'Saved'
 cv2.waitKey(0)
 cv2.destroyAllWindows()
+
+# Save Images for the dataset in folder 1_Repostioned
+path = os.path.join(os.path.expanduser('~'), 'Git', 'branch_git', 'Dataset', '1_Repostioned')
+filename1 = name_number+"_depth_1.jpg
+filename2 = name_number+"_depth_2.jpg
+cv2.imwrite(path+'/'+filename1,img1)
+cv2.imwrite(path+'/'+filename2,img2)
+print 'Saved'
