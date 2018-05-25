@@ -3,8 +3,9 @@
 Hello! This is branch_git, for the development of BranchConnect - scannig and fabrication project using natural shaped wood.
 
 Capture depth image and color image with
-  get_image_top.py
-  get_image_bottom.py
+  *get_image_top.py*
+  and
+  *get_image_bottom.py*
 
 Adjust the bottom depth image to fit with top image with
   image_reposition.py
