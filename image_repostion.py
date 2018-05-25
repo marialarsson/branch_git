@@ -1,5 +1,6 @@
 import numpy as np
 import cv2
+import os
 
 def get_branch_center_point(img):
     x = 0
@@ -123,11 +124,14 @@ def rotate_image(img, ang):
 name_number = '0001'
 
 # Import Images
-path = os.path.join(os.path.expanduser('~'), 'Git', 'branch_git', 'Dataset', '0_Raw')
-filename1 = name_number+"_depth_1.jpg
-filename2 = name_number+"_depth_2.jpg
-img1 = cv2.imread(path+'/'+filename1,0)
-img2 = cv2.imread(path+'/'+filename2,0)
+path = os.path.join(os.path.expanduser('~'), 'git', 'branch_git', 'Dataset', '0_Raw')
+filename1 = path+'/'+name_number+'_depth_1.jpg'
+filename2 = path+'/'+name_number+'_depth_2.jpg'
+print filename1
+img1 = cv2.imread(filename1,0)
+img2 = cv2.imread(filename2,0)
+
+print img1
 
 # Overwrite low values (almost black) with 0 (black)
 img1[img1<10]=0
@@ -160,9 +164,9 @@ cv2.waitKey(0)
 cv2.destroyAllWindows()
 
 # Save Images for the dataset in folder 1_Repostioned
-path = os.path.join(os.path.expanduser('~'), 'Git', 'branch_git', 'Dataset', '1_Repostioned')
-filename1 = name_number+"_depth_1.jpg
-filename2 = name_number+"_depth_2.jpg
-cv2.imwrite(path+'/'+filename1,img1)
-cv2.imwrite(path+'/'+filename2,img2)
+path = os.path.join(os.path.expanduser('~'), 'git', 'branch_git', 'Dataset', '1_Repostioned')
+filename1 = path+'/'+name_number+'_depth_1.jpg'
+filename2 = path+'/'+name_number+'_depth_2.jpg'
+cv2.imwrite(filename1,img1)
+cv2.imwrite(filename2,img2)
 print 'Saved'
