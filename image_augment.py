@@ -27,18 +27,35 @@ img2 = square_image(img2)
 Images1 = []
 Images2 = []
 n = 5             #number of extra image pairs
-rotation = 180.0   #range of random rotation
+rotation = 180.0  #range of random rotation
 scale = 0.20      #range of random scale
+gradiation = 30        #random add and subtract to change color
 for i in range(n):
+    # Generate random parameters
     angle = random.uniform(-rotation,rotation)
     scale_factor = random.uniform(1-scale,1+scale)
     flip = bool(random.getrandbits(1))
-    print "a:", angle, "s:",scale_factor, "f:", flip
+    grad1 = random.randint(-gradiation,gradiation)
+    grad2 = random.randint(-gradiation,gradiation)
+    print "a:", angle, "s:",scale_factor, "f:", flip, "g1:", grad1, "g2:", grad2
+    # Rotate
     img_temp_1 = rotate_image(np.copy(img1),angle)
     img_temp_2 = rotate_image(np.copy(img2),angle)
-    img_temp_1 = scale_image(img_temp_1,scale_factor)
+    # Scale
+    mg_temp_1 = scale_image(img_temp_1,scale_factor)
     img_temp_2 = scale_image(img_temp_2,scale_factor)
+    # Color
+    for i in range(len(img_temp_1)):
+        for j in range(len(img_temp_1[0])):
+            px = img_temp_1[i][j]
+            if px>10 and px<254-grad1:  img_temp_1[i][j] += grad1
+    for i in range(len(img_temp_2)):
+        for j in range(len(img_temp_2[0])):
+            px = img_temp_2[i][j]
+            if px>10 and px<254-grad2:  img_temp_2[i][j] += grad2
+    # Swap top and bottom
     if flip==True: img_temp_1, img_temp_2 = img_temp_2, img_temp_1
+    # Store in list
     Images1.append(np.copy(img_temp_1))
     Images2.append(np.copy(img_temp_2))
 
