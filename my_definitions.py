@@ -117,3 +117,26 @@ def rotate_image(img, ang):
   rot_mat = cv2.getRotationMatrix2D(image_center, ang, 1.0)
   result = cv2.warpAffine(img, rot_mat, img.shape[1::-1], flags=cv2.INTER_LINEAR)
   return result
+
+def scale_image(img,factor):
+    w = len(img)
+    h = len(img[0])
+    w_new = int(factor*float(w))
+    h_new = int(factor*float(h))
+    img = cv2.resize(img, dsize=(h_new, w_new), interpolation=cv2.INTER_CUBIC)
+    w_add = abs(int(0.5*(w-w_new)))
+    h_add = abs(int(0.5*(h-h_new)))
+    #if it scales the images to a smaller size, add black pixels on the edges to recover original image size without scaling branch
+    if factor<1: img = np.pad(img, ((w_add, w-w_new-w_add), (h_add, h-h_new-h_add)), 'edge')
+    #else if it scales the images to a larger size, crop the image to original size
+    elif factor>1: img = img[w_add:w+w_add,h_add:h+h_add]
+    return img
+
+def square_image(img): #assuming width is greater than height
+    h = len(img)
+    w = len(img[0])
+    diff = w-h
+    add_top = int(float(diff)/2.0)
+    add_bot = w-h-add_top
+    img = np.pad(img, ( (add_top,add_bot), (0,0) ), 'edge')
+    return img
