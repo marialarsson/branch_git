@@ -1,5 +1,6 @@
 import numpy as np
 import cv2
+import os
 
 def get_branch_center_point(img):
     x = 0
@@ -139,4 +140,22 @@ def square_image(img): #assuming width is greater than height
     add_top = int(float(diff)/2.0)
     add_bot = w-h-add_top
     img = np.pad(img, ( (add_top,add_bot), (0,0) ), 'edge')
+    return img
+
+def get_last_file_index(path):
+    files = os.listdir(path)
+    indices = []
+    for name in files: indices.append(int(name.split('.')[0]))
+    indices.sort()
+    if len(indices)>0: last_index = indices[-1]
+    else: last_index = 0
+    return last_index
+
+def update_gradient(img,ran,val):
+    minimum = ran[0]
+    maximum = ran[1]
+    for i in range(len(img)):
+        for j in range(len(img[0])):
+            px = img[i][j]
+            if px>minimum and px<maximum-val:  img[i][j] += val
     return img
