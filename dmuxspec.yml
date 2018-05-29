@@ -15,7 +15,7 @@ features:
 hardware:
 - cpu==2
 - ram==16384
-- disk==100000
+- disk==20000
 - gpu==1
 - ib==1
 #- ib==1
