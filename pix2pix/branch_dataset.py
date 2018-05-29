@@ -18,15 +18,15 @@ from chainer.dataset import dataset_mixin
 
 # download `BASE` dataset from http://cmp.felk.cvut.cz/~tylecr1/facade/
 class BranchDataset(dataset_mixin.DatasetMixin):
-    def __init__(self, dataDir='./facade/base', data_range=(1,300)):
+    def __init__(self, dataDir='./Dataset', data_range=(1,300)):
         print("load dataset start")
         print("    from: %s"%dataDir)
         print("    range: [%d, %d)"%(data_range[0], data_range[1]))
         self.dataDir = dataDir
         self.dataset = []
         for i in range(data_range[0],data_range[1]):
-            print("file_name", dataDir+"/Input/%04d.jpg"%i)
-            img = Image.open(dataDir + "/Input/%04d.jpg"%i)
+            print("file_name", dataDir+"Input/%04d.jpg"%i)
+            img = Image.open(dataDir + "Input/%04d.jpg"%i)
             label = Image.open(dataDir+ "Label/%04d.jpg"%i)
             w,h = img.size
             height = 129

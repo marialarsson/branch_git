@@ -27,7 +27,7 @@ def main():
                         help='Number of sweeps over the dataset to train')
     parser.add_argument('--gpu', '-g', type=int, default=-1,
                         help='GPU ID (negative value indicates CPU)')
-    parser.add_argument('--dataset', '-i', default="./BranchConnectDataset/",
+    parser.add_argument('--dataset', '-i', default="../Dataset/",
                         help='Directory of image files.')
     parser.add_argument('--out', '-o', default='results',
                         help='Directory to output the results')
