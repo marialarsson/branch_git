@@ -35,7 +35,7 @@ def main():
                         help='Resume the training from snapshot')
     parser.add_argument('--seed', type=int, default=0,
                         help='Random seed')
-    parser.add_argument('--snapshot_interval', type=int, default=50,
+    parser.add_argument('--snapshot_interval', type=int, default=1000,
                         help='Interval of snapshot')
     parser.add_argument('--display_interval', type=int, default=1,
                         help='Interval of displaying log to console')
