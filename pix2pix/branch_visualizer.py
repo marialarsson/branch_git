@@ -63,6 +63,7 @@ def out_image(updater, enc, dec, rows, cols, seed, dst):
             preview_dir = '{}/preview'.format(dst)
             preview_path = preview_dir +\
                 '/image_{}_{:0>8}.png'.format(name, trainer.updater.iteration)
+            print("save image", preview_path)
             if not os.path.exists(preview_dir):
                 os.makedirs(preview_dir)
 

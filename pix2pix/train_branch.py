@@ -35,7 +35,7 @@ def main():
                         help='Resume the training from snapshot')
     parser.add_argument('--seed', type=int, default=0,
                         help='Random seed')
-    parser.add_argument('--snapshot_interval', type=int, default=1000,
+    parser.add_argument('--snapshot_interval', type=int, default=3000,
                         help='Interval of snapshot')
     parser.add_argument('--display_interval', type=int, default=1,
                         help='Interval of displaying log to console')
@@ -67,8 +67,8 @@ def main():
     opt_dec = make_optimizer(dec)
     opt_dis = make_optimizer(dis)
 
-    train_d = BranchDataset(args.dataset, data_range=(1,65))
-    test_d = BranchDataset(args.dataset, data_range=(66,80))
+    train_d = BranchDataset(args.dataset, data_range=(1,70))
+    test_d = BranchDataset(args.dataset, data_range=(70,80))
     #train_iter = chainer.iterators.MultiprocessIterator(train_d, args.batchsize, n_processes=4)
     #test_iter = chainer.iterators.MultiprocessIterator(test_d, args.batchsize, n_processes=4)
     train_iter = chainer.iterators.SerialIterator(train_d, args.batchsize)
@@ -109,11 +109,11 @@ def main():
     ]), trigger=display_interval)
     trainer.extend(extensions.ProgressBar(update_interval=10))
 
-    # trainer.extend(
-    #     out_image(
-    #         updater, enc, dec,
-    #         3, 3, args.seed, args.out),
-    #     trigger=snapshot_interval)
+    trainer.extend(
+        out_image(
+            updater, enc, dec,
+            3, 3, args.seed, args.out),
+        trigger=snapshot_interval)
 
     if args.resume:
         # Resume from a snapshot
