@@ -113,7 +113,7 @@ def main():
         out_image(
             updater, enc, dec,
             3, 3, args.seed, args.out),
-        trigger=snapshot_interval)
+        trigger=(1, 'iteration'))
 
     if args.resume:
         # Resume from a snapshot
